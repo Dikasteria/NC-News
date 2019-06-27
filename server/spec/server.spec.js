@@ -60,9 +60,9 @@ describe("/api", () => {
           expect(article[0].comment_count).to.equal("13");
         });
     });
-    // it("status: 404, article not found", () => {
-    //   return request.get("/api/articles/kfkffk").expect(404);
-    // });
+    it("status: 404, article not found", () => {
+      return request.get("/api/articles/3333").expect(404);
+    });
     it("PATCH, adds a vote increment to articles by ID", () => {
       return request
         .put("/api/articles/1")
@@ -70,6 +70,18 @@ describe("/api", () => {
         .expect(201)
         .then(res => {
           expect(res.body.article[0].votes).to.equal(101);
+        });
+    });
+    it("POST, posts a new comment to the database ", () => {
+      return request
+        .post("/api/articles/1/")
+        .send({
+          username: "butter_bridge",
+          body: "Hello there..."
+        })
+        .expect(201)
+        .then(res => {
+          expect(res.body.length).to.equal(19);
         });
     });
   });
