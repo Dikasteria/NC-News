@@ -1,8 +1,7 @@
 exports.handlePsql400Errors = (err, req, res, next) => {
-  console.log(err.code);
-  const codes = ["22P02", "42601"];
+  const codes = ["22P02", "42601", "23502"];
   if (codes.includes(err.code)) {
-    res.status(404).send({ msg: "Not Found" });
+    res.status(400).send({ msg: "Not Found" });
   } else next(err);
 };
 exports.handlePsql500Errors = (err, req, res, next) => {

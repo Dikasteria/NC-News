@@ -81,8 +81,52 @@ describe("/api", () => {
         })
         .expect(201)
         .then(res => {
-          expect(res.body.length).to.equal(19);
+          expect(res.body.comment[0]).to.contain.keys(
+            "comment_id",
+            "author",
+            "article_id",
+            "votes",
+            "created_at",
+            "body"
+          );
+        });
+    });
+    it("status: 400, empty object passed", () => {
+      return request
+        .post("/api/users/1/")
+        .send({})
+        .expect(404)
+        .then(({ body }) => {
+          expect(body.msg).to.equal("page not found");
+        });
+    });
+    it("GET, responds with an array of comments by article_id", () => {
+      return request
+        .get("/api/articles/1")
+        .expect(200)
+        .then(response => {
+          // console.log(response.body);
         });
     });
   });
 });
+
+// ### GET All
+
+//   - `/notARoute` -> route that does not exist: ** 404 Not Found **
+
+// ### GET by ID
+
+//   - `/api/resource/999999999` -> resource that does not exist: ** 404 Not Found **
+//     - `/api/resource/notAnId` -> invalid ID: ** 400 Bad Request **
+
+// ### POST
+
+//   - `/api/resource` body: `{}` -> malformed body / missing required fields: ** 400 Bad Request **
+//     - `/api/resource` body: `{ rating_out_of_five: 6 }` -> failing schema validation: ** 400 Bad Request **
+
+// ### DELETE / PATCH / PUT by ID
+
+//   - `/api/resource/999999999` -> resource that does not exist: ** 404 Not Found **
+//     - `/api/resource/notAnId` -> invalid ID: ** 400 Bad Request **
+//       - `/api/resource` body: `{}` -> malformed body / missing required fields: ** 400 Bad Request **
