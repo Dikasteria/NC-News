@@ -107,7 +107,6 @@ describe("/api", () => {
         .get("/api/articles/9/comments")
         .expect(200)
         .then(response => {
-          console.log(response.body, "SPEC");
           expect(response.body[0]).to.have.keys(
             `comment_id`,
             `votes`,
@@ -115,10 +114,44 @@ describe("/api", () => {
             `author`,
             `body`
           );
-          expect(response.body).to.be.sortedBy("votes", { descending: true });
+          expect(response.body).to.be.sortedBy("created_at", {
+            descending: true
+          });
         });
     });
+    it.only("GET, comments can be sorted by other columns", () => {
+      return request
+        .get("/api/articles/1/comments?sort_by=author")
+        .expect(200)
+        .then(comments => {
+          expect(comments.body).to.be.descendingBy("author");
+        });
+    });
+    it("status: 404, invalid article_id", () => {
+      return request.get("/api/articles/3333").expect(404);
+    });
+    it("status: 404, invalid route", () => {
+      return request.get("/api/choke/31333").expect(404);
+    });
   });
+  // describe("/api/articles", () => {
+  //   it("GET, eturns articles (sorted, ordered, filtered by author, filters by topic", () => {
+  //     return request
+  //       .get("/api/articles")
+  //       .expect(200)
+  //       .then(response => {
+  //         expect(response.body).to.have.keys(
+  //           "author",
+  //           "title",
+  //           "article_id",
+  //           "topic",
+  //           "created_at",
+  //           "votes",
+  //           "comment_count"
+  //         );
+  //       });
+  //   });
+  // });
 });
 
 // ### GET All

@@ -4,6 +4,9 @@ const getArticlesByArticleId = require("../controllers/getArticlesByArticleId");
 const patchArticlesByArticleId = require("../controllers/patchArticlesByArticleId");
 const postCommentByArticleId = require("../controllers/postCommentByArticleId");
 const getCommentsByArticleId = require("../controllers/getCommentsByArticleId");
+const getArticles = require("../controllers/getArticles");
+
+articlesRouter.route("/").get(getArticles);
 
 articlesRouter
   .route("/:article_id")
