@@ -100,12 +100,22 @@ describe("/api", () => {
           expect(body.msg).to.equal("page not found");
         });
     });
+  });
+  describe("/api/articles/:article_id/comments", () => {
     it("GET, responds with an array of comments by article_id", () => {
       return request
-        .get("/api/articles/1")
+        .get("/api/articles/9/comments")
         .expect(200)
         .then(response => {
-          // console.log(response.body);
+          console.log(response.body, "SPEC");
+          expect(response.body[0]).to.have.keys(
+            `comment_id`,
+            `votes`,
+            `created_at`,
+            `author`,
+            `body`
+          );
+          expect(response.body).to.be.sortedBy("votes", { descending: true });
         });
     });
   });
