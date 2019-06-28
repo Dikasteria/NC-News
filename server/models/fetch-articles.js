@@ -1,18 +1,13 @@
 const connection = require("../../db/connection");
 
 const fetchArticles = () => {
-  return connection("articles")
-    .select(
-      "author",
-      "title",
-      "article_id",
-      "topic",
-      "created_at",
-      "votes",
-      "comment_count"
-    )
+  return connection
+    .select("articles.*")
+    .count({ comment_count: "comments.article_id" })
     .from("articles")
-    .orderBy("author", { ascending: true });
+    .leftJoin("comments", "comments.article_id", "=", "articles.article_id")
+    .groupBy("articles.article_id")
+    .orderBy("author", "asc");
 };
 
 module.exports = fetchArticles;

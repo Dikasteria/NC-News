@@ -5,7 +5,7 @@ const fetchCommentsByArticleId = (article_id, sort_by, order_by) => {
     .where({ "comments.article_id": article_id })
     .select("comment_id", "votes", "created_at", "author", "body")
     .from("comments")
-    .orderBy(sort_by, order_by || "created_at", "desc");
+    .orderBy(sort_by || "created_at", order_by || "desc");
 };
 
 module.exports = fetchCommentsByArticleId;
