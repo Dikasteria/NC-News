@@ -121,7 +121,7 @@ describe("/api", () => {
     });
     it.only("GET, comments can be sorted by other columns", () => {
       return request
-        .get("/api/articles/1/comments?sort_by=author")
+        .get("/api/articles/1/comments?sort_by=author&order_by=desc")
         .expect(200)
         .then(comments => {
           expect(comments.body).to.be.descendingBy("author");
