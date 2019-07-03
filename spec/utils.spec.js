@@ -28,9 +28,29 @@ describe("formatDate", () => {
       }
     ]);
   });
-  // it("Does not mutate the original array", () => {
-  //   expect(formatDate([])).to.eql([]);
-  // });
+  it("Does not mutate the original array", () => {
+    const input = [
+      {
+        body:
+          "Oh, I've got compassion running out of my nose, pal! I'm the Sultan of Sentiment!",
+        belongs_to: "They're not exactly dogs, are they?",
+        created_by: "butter_bridge",
+        votes: 16,
+        created_at: 1511354163389
+      }
+    ];
+    formatDate(input);
+    expect(input).to.eql([
+      {
+        body:
+          "Oh, I've got compassion running out of my nose, pal! I'm the Sultan of Sentiment!",
+        belongs_to: "They're not exactly dogs, are they?",
+        created_by: "butter_bridge",
+        votes: 16,
+        created_at: 1511354163389
+      }
+    ]);
+  });
 });
 
 describe("makeRefObj", () => {
@@ -62,7 +82,9 @@ describe("formatComments", () => {
             created_at: 1511354163389
           }
         ],
-        { A: 1 }
+        {
+          "They're not exactly dogs, are they?": 1
+        }
       )
     ).to.eql([
       {

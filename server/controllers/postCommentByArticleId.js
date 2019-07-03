@@ -4,11 +4,12 @@ const postCommentByArticleId = (req, res, next) => {
   const { article_id } = req.params;
   const newComment = req.body;
   newCommentByArticleId(article_id, newComment)
-    .then(comment => {
-      if (comment.length < 1) {
-        return Promise.reject({ code: 404, msg: "page not found" });
+    .then(comments => {
+      if (comments.length < 1) {
+        return Promise.reject({ status: 404, msg: "page not found" });
       }
-      res.status(201).send({ comment });
+
+      res.status(201).send({ comment: comments[0] });
     })
     .catch(next);
 };

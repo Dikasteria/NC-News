@@ -4,9 +4,9 @@ const getUsersByUsername = (req, res, next) => {
   fetchUsersByUsername(username)
     .then(user => {
       if (user.length < 1) {
-        return Promise.reject({ code: 404, msg: "page not found" });
+        return Promise.reject({ status: 404, msg: "page not found" });
       }
-      res.status(200).send({ user });
+      res.status(200).send({ user: user[0] });
     })
     .catch(next);
 };

@@ -4,9 +4,9 @@ const getArticlesByArticleId = (req, res, next) => {
   fetchArticlesByArticleId(article_id)
     .then(article => {
       if (article.length < 1) {
-        return Promise.reject({ code: 404, msg: "page not found" });
+        return Promise.reject({ status: 404, msg: "page not found" });
       }
-      res.status(200).send({ article });
+      res.status(200).send({ article: article[0] });
     })
     .catch(next);
 };

@@ -2,13 +2,14 @@ const updateArticlesByArticleId = require("../models/update-articles-by-article-
 
 const patchArticlesByArticleId = (req, res, next) => {
   const { article_id } = req.params;
-  const votes = req.body;
-  updateArticlesByArticleId(article_id, votes)
-    .then(article => {
-      if (article.length < 1) {
-        return Promise.reject({ code: 404, msg: "page not found" });
+  const { inc_votes } = req.body;
+
+  updateArticlesByArticleId(article_id, inc_votes)
+    .then(([article]) => {
+      if (!article) {
+        return Promise.reject({ status: 404, msg: "page not found" });
       }
-      res.status(201).send({ article });
+      res.status(200).send({ article });
     })
     .catch(next);
 };

@@ -5,15 +5,20 @@ const patchArticlesByArticleId = require("../controllers/patchArticlesByArticleI
 const postCommentByArticleId = require("../controllers/postCommentByArticleId");
 const getCommentsByArticleId = require("../controllers/getCommentsByArticleId");
 const getArticles = require("../controllers/getArticles");
+const { badMethod } = require("../errors/index");
 
 articlesRouter.route("/").get(getArticles);
 
 articlesRouter
   .route("/:article_id")
   .get(getArticlesByArticleId)
-  .put(patchArticlesByArticleId)
-  .post(postCommentByArticleId);
+  .patch(patchArticlesByArticleId)
+  .all(badMethod);
 
-articlesRouter.route("/:article_id/comments").get(getCommentsByArticleId);
+articlesRouter
+  .route("/:article_id/comments")
+  .get(getCommentsByArticleId)
+  .post(postCommentByArticleId)
+  .all(badMethod);
 
 module.exports = articlesRouter;

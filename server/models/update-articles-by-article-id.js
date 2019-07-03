@@ -1,13 +1,10 @@
 const connection = require("../../db/connection");
 
-const updateArticlesByArticleId = (article_id, votes) => {
+const updateArticlesByArticleId = (article_id, inc_votes = 0) => {
   return connection("articles")
     .where("article_id", "=", article_id)
-    .increment("votes", votes.inc_votes)
-    .returning("*")
-    .then(response => {
-      return response;
-    });
+    .increment("votes", inc_votes)
+    .returning("*");
 };
 
 module.exports = updateArticlesByArticleId;

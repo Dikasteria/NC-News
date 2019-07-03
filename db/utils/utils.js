@@ -31,3 +31,11 @@ exports.formatComments = (comments, articleRef) => {
 
   return formattedArray;
 };
+
+exports.validateOrder = order_by => {
+  const ordered = ["asc", "desc"];
+  if (!ordered.includes(order_by)) {
+    order_by = undefined;
+  }
+  return order_by;
+};

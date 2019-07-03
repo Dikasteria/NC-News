@@ -10,9 +10,9 @@ const {
 
 app.use(express.json());
 app.use("/api", apiRouter);
-app.use("/*", catchAll404);
-app.use(handleErrorWithCode);
 app.use(handlePsql400Errors);
+app.use("/*", catchAll404);
 app.use(handlePsql500Errors);
+app.use(handleErrorWithCode);
 
 module.exports = app;

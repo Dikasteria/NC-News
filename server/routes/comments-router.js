@@ -1,7 +1,13 @@
-// const express = require("express");
-// const articlesRouter = require("./articles-router");
-// const commentsRouter = express.Router();
+const express = require("express");
+const commentsRouter = express.Router();
+const patchCommentsByCommentId = require("../controllers/patchCommentsByCommentId");
+const deleteCommentsByCommentId = require("../controllers/deleteCommentsByCommentId");
+const { badMethod } = require("../errors/index");
 
-// commentsRouter.route("/").get();
+commentsRouter
+  .route("/:comment_id")
+  .put(patchCommentsByCommentId)
+  .delete(deleteCommentsByCommentId)
+  .all(badMethod);
 
-// module.exports = commentsRouter;
+module.exports = commentsRouter;

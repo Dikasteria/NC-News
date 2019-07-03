@@ -6,12 +6,9 @@ const newCommentByArticleId = (article_id, newComment) => {
     .insert({
       author: newComment.username,
       body: newComment.body,
-      article_id: article_id
+      article_id
     })
-    .returning("*")
-    .then(result => {
-      return result;
-    });
+    .returning("*");
 };
 
 module.exports = newCommentByArticleId;
