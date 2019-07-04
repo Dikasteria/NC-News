@@ -5,6 +5,7 @@ const request = require("supertest")(app);
 const connection = require("../../db/connection");
 const chai = require("chai");
 chai.use(require("chai-sorted"));
+const jsonData = require("../../endpoints.json");
 
 describe("/api", () => {
   beforeEach(() => {
@@ -130,13 +131,25 @@ describe("/api", () => {
             expect(body.msg).to.equal("Not Found");
           });
       });
-      it("status: 400, invalid article ID", () => {
+      it("status: 400, sending no data", () => {
         return request
           .post("/api/articles/1/comments")
           .send({})
           .expect(400)
           .then(({ body }) => {
             expect(body.msg).to.equal("Not Found");
+          });
+      });
+      it("status: 422, valid article_id data type but out of range", () => {
+        return request
+          .post("/api/articles/1000/comments")
+          .send({
+            username: "butter_bridge",
+            body: "Hello there..."
+          })
+          .expect(422)
+          .then(({ body }) => {
+            expect(body.msg).to.equal("unprocessable entity");
           });
       });
     });
@@ -254,7 +267,7 @@ describe("/api", () => {
     describe("/api/comments/:comment_id", () => {
       it("PATCH, updates comments by id with vote increments", () => {
         return request
-          .put("/api/comments/1")
+          .patch("/api/comments/1")
           .send({ inc_votes: 10 })
           .expect(200)
           .then(({ body: { comment: { votes } } }) => {
@@ -263,24 +276,30 @@ describe("/api", () => {
       });
       it("PATCH, status 400: Bad Request status code when sent an invalid `inc_votes` value", () => {
         return request
-          .put("/api/comments/1")
+          .patch("/api/comments/1")
           .send({ inc_votes: "cheese" })
           .expect(400);
       });
       it("PATCH, returns comment unchanged when passed no inc-votes key/value pair", () => {
         return request
-          .put("/api/comments/1")
+          .patch("/api/comments/1")
           .send({ no_votes: "cheese" })
           .expect(200)
           .then(({ body: { comment: { votes } } }) => {
-            expect(votes).to.equal(17);
+            expect(votes).to.equal(16);
           });
       });
       it("PATCH, status 400: Bad Request status code when sent an invalid comment ID", () => {
         return request
-          .put("/api/comments/cheese")
+          .patch("/api/comments/cheese")
           .send({ inc_votes: 10 })
           .expect(400);
+      });
+      it("PATCH, status 404: Valid comment_id but out of range", () => {
+        return request
+          .patch("/api/comments/1000")
+          .send({ inc_votes: 10 })
+          .expect(404);
       });
     });
     describe("/api/comments/:comment_id", () => {
@@ -291,6 +310,14 @@ describe("/api", () => {
         return request.delete("/api/comments/999999").expect(400);
       });
     });
+  });
+  it("GET, 200 successful get and JSON object returned as expected", () => {
+    return request
+      .get("/api")
+      .expect(200)
+      .then(({ body: { endPoints } }) => {
+        expect(endPoints).to.eql(jsonData);
+      });
   });
 });
 

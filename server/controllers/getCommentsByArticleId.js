@@ -12,7 +12,7 @@ const getCommentsByArticleId = (
         fetchArticlesByArticleId(article_id)
           .then(articles => {
             if (articles.length === 0) {
-              return Promise.reject({ status: 404, msg: "tosser not found" });
+              return Promise.reject({ status: 404, msg: "not found" });
             } else res.status(200).send({ comments });
           })
           .catch(next);

@@ -6,7 +6,7 @@ const { badMethod } = require("../errors/index");
 
 commentsRouter
   .route("/:comment_id")
-  .put(patchCommentsByCommentId)
+  .patch(patchCommentsByCommentId)
   .delete(deleteCommentsByCommentId)
   .all(badMethod);
 
