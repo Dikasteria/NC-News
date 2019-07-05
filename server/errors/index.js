@@ -31,5 +31,5 @@ exports.handlePsql500Errors = (err, req, res, next) => {
 };
 
 exports.badMethod = (req, res, next) => {
-  next({ status: 405, msg: "method not allowed" });
+  res.status(405).send({ msg: "method not allowed" });
 };

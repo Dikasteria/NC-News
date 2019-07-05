@@ -209,8 +209,8 @@ describe("/api", () => {
       it("status: 400, invalid article_id", () => {
         return request.get("/api/articles/cheese/comments").expect(400);
       });
-      it("status: 404, invalid route", () => {
-        return request.get("/api/choke/2").expect(404);
+      it("status: 405, invalid route", () => {
+        return request.get("/api/choke/2").expect(405);
       });
     });
     describe("/api/articles", () => {
@@ -318,6 +318,19 @@ describe("/api", () => {
       .then(({ body: { endPoints } }) => {
         expect(endPoints).to.eql(jsonData);
       });
+  });
+  describe("Invalid Methods", () => {
+    it("Returns status 405", () => {
+      const invalidMethods = ["put"];
+      const methodPromises = invalidMethods.map(method => {
+        return request[method]("/api")
+          .expect(405)
+          .then(({ body: { msg } }) => {
+            expect(msg).to.equal("method not allowed");
+          });
+      });
+      return Promise.all(methodPromises);
+    });
   });
 });
 
