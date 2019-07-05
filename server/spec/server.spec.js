@@ -260,6 +260,9 @@ describe("/api", () => {
       it("GET, passing an incorrect column parameter", () => {
         return request.get("/api/articles?column=not-a-column").expect(200);
       }); //will pass as fall back on default 'created_at'
+      it.only("Get, returns a 400 when passed an incorrect order by column command", () => {
+        return request.get("/api/articles?sort_by=not-a-column").expect(400);
+      });
       it("GET, passing an incorrect order parameter", () => {
         return request.get("/api/articles?order=not-asc-or-desc").expect(200);
       }); //will pass as fall back on default 'desc'
