@@ -8,9 +8,6 @@ const baseConfig = {
   },
   seeds: {
     directory: "./db/seeds"
-  },
-  production: {
-    connection: `${DB_URL}?ssl=true`
   }
 };
 
@@ -28,6 +25,9 @@ const customConfig = {
       username: "dikasteria",
       password: "password"
     }
+  },
+  production: {
+    connection: `${DB_URL}?ssl=true`
   }
 };
 
