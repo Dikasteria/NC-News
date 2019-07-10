@@ -11,9 +11,9 @@
     "seed": "knex seed:run",
     "test-utils": "mocha spec/utils.spec.js",
     "test": "mocha server/spec/server.spec.js",
-    "seed:prod": "NODE_ENV=production DB_URL=$(heroku config:get DATABASE_URL) knex migrate:latest && NODE_ENV=production DB_URL=$(heroku config:get DATABASE_URL) knex seed:run",
-    "migrate:latest:prod": "NODE_ENV=production DB_URL=$(heroku config:get postgres://uqwvjlnifxhewa:d610423b68110f9623a095f1b8b8a5a354b690d9ed75535d0b9139ed9901846c@ec2-54-235-92-43.compute-1.amazonaws.com:5432/d8shtp99qi4f06) knex migrate:latest",
-    "migrate:rollback:prod": "NODE_ENV=production DB_URL=$(heroku config:get postgres://uqwvjlnifxhewa:d610423b68110f9623a095f1b8b8a5a354b690d9ed75535d0b9139ed9901846c@ec2-54-235-92-43.compute-1.amazonaws.com:5432/d8shtp99qi4f06) knex migrate:rollback",
+    "seed:prod": "NODE_ENV=production DB_URL=$(heroku config:get DATABASE_URL) knex seed:run",
+    "migrate-latest:prod": "NODE_ENV=production DB_URL=$(heroku config:get DATABASE_URL) knex migrate:latest",
+    "migrate-rollback:prod": "NODE_ENV=production DB_URL=$(heroku config:get DATABASE_URL) knex migrate:rollback",
     "start": "node ./server/listen/index.js"
   },
   "repository": {
@@ -28,11 +28,11 @@
   },
   "homepage": "https://github.com/northcoders/be-nc-news#readme",
   "dependencies": {
-    "chai-sorted": "^0.2.0"
+    "chai-sorted": "^0.2.0",
+    "express": "^4.17.1"
   },
   "devDependencies": {
     "chai": "^4.2.0",
-    "express": "^4.17.1",
     "knex": "^0.17.6",
     "mocha": "^6.1.4",
     "nodemon": "^1.19.1",
