@@ -119,18 +119,6 @@ describe("/api", () => {
             );
           });
       });
-      it("status: 400, empty object passed", () => {
-        return request
-          .post("/api/articles/cheese/comments")
-          .send({
-            username: "butter_bridge",
-            body: "Hello there..."
-          })
-          .expect(400)
-          .then(({ body }) => {
-            expect(body.msg).to.equal("Not Found");
-          });
-      });
       it("status: 400, sending no data", () => {
         return request
           .post("/api/articles/1/comments")
@@ -260,7 +248,7 @@ describe("/api", () => {
       it("GET, passing an incorrect column parameter", () => {
         return request.get("/api/articles?column=not-a-column").expect(200);
       }); //will pass as fall back on default 'created_at'
-      it.only("Get, returns a 400 when passed an incorrect order by column command", () => {
+      it("Get, returns a 400 when passed an incorrect order by column command", () => {
         return request.get("/api/articles?sort_by=not-a-column").expect(400);
       });
       it("GET, passing an incorrect order parameter", () => {
@@ -309,7 +297,7 @@ describe("/api", () => {
       it("DELETE, deletes a comment by comment id", () => {
         return request.delete("/api/comments/1").expect(204);
       });
-      it("DELETE, status 400: Bad request when passed an  invalid comment ID", () => {
+      it("DELETE, status 400: Bad request when passed an invalid comment ID", () => {
         return request.delete("/api/comments/999999").expect(400);
       });
     });
@@ -333,6 +321,53 @@ describe("/api", () => {
           });
       });
       return Promise.all(methodPromises);
+    });
+  });
+  describe("/api/articles", () => {
+    it("POST, posts a new article to the database", () => {
+      return request
+        .post("/api/articles")
+        .send({
+          title: "creating a restful api server",
+          topic: "paper",
+          author: "lurker",
+          body: "This is a story on how not to create a restful API server,",
+          votes: 2
+        })
+        .expect(201)
+        .then(res => {
+          expect(res.body.article).to.contain.keys(
+            "title",
+            "topic",
+            "author",
+            "body",
+            "created_at"
+          );
+        });
+    });
+    it("POST, status 400, empty body passed", () => {
+      return request
+        .post("/api/articles")
+        .send({})
+        .expect(400)
+        .then(({ body }) => {
+          expect(body.msg).to.equal("Not Found");
+        });
+    });
+    it.only("POST, status 400, incorrect fields passed", () => {
+      return request
+        .post("/api/articles")
+        .send({
+          title: "No idea",
+          fields: "cheese",
+          cinema: "lurker",
+          body: "Hello!",
+          votes: "snooze"
+        })
+        .expect(400)
+        .then(({ body }) => {
+          expect(body.msg).to.equal("Not Found");
+        });
     });
   });
 });

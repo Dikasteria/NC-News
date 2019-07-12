@@ -1,6 +1,6 @@
 exports.handlePsql400Errors = (err, req, res, next) => {
   const codes = ["22P02", "42601", "23502", 400, "42703"];
-  if (codes.includes(err.code)) {
+  if (codes.includes(err.code) || err.status === 400) {
     res.status(400).send({ msg: "Not Found" });
   } else next(err);
 };

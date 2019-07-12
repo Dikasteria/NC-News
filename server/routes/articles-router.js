@@ -5,9 +5,14 @@ const patchArticlesByArticleId = require("../controllers/patchArticlesByArticleI
 const postCommentByArticleId = require("../controllers/postCommentByArticleId");
 const getCommentsByArticleId = require("../controllers/getCommentsByArticleId");
 const getArticles = require("../controllers/getArticles");
+const postArticle = require("../controllers/postArticle");
 const { badMethod } = require("../errors/index");
 
-articlesRouter.route("/").get(getArticles);
+articlesRouter
+  .route("/")
+  .get(getArticles)
+  .post(postArticle)
+  .all(badMethod);
 
 articlesRouter
   .route("/:article_id")
