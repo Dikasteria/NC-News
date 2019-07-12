@@ -30,13 +30,13 @@
   "dependencies": {
     "chai-sorted": "^0.2.0",
     "express": "^4.17.1",
-    "knex": "^0.17.6"
+    "knex": "^0.17.6",
+    "pg": "^7.11.0"
   },
   "devDependencies": {
     "chai": "^4.2.0",
     "mocha": "^6.1.4",
     "nodemon": "^1.19.1",
-    "pg": "^7.11.0",
     "supertest": "^4.0.2"
   }
 }
